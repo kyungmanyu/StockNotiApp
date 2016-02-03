@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <WebView
+        android:id="@+id/detail_webview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="50dp" />
+
+    <com.fsn.cauly.CaulyAdView
+        xmlns:app="http://schemas.android.com/apk/res/com.joyful.stock"
+        android:id="@+id/xmladview"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
+        android:gravity="bottom"
+        app:appcode="KxNohX1C"
+        app:bannerHeight="Fixed"
+        app:dynamicReloadInterval="true"
+        app:effect="RightSlide"
+        app:reloadInterval="3" >
+    </com.fsn.cauly.CaulyAdView>
+
+</RelativeLayout>

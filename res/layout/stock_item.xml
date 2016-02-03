@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal" >
+
+    <!-- Single ListItem -->
+
+
+    <!-- Stock Name -->
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:showDividers="beginning" >
+
+        <TextView
+            android:id="@+id/Stock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="2dip"
+            android:text="종목"
+            android:textSize="16dip"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/Stock_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="marquee"
+            android:padding="2dip"
+            android:textSize="14dip"
+             />
+    </LinearLayout>
+    <!-- 현재가 Name -->
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:showDividers="beginning" >
+
+        <TextView
+            android:id="@+id/current"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="2dip"
+            android:text="현재가"
+            android:textSize="16dip"
+            android:textStyle="bold" />
+
+        <!-- 현재가 vlaue -->
+
+        <TextView
+            android:id="@+id/current_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="2dip"
+            android:textSize="14dip"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:showDividers="beginning" >
+
+        <!-- 전일대비 Name -->
+
+        <TextView
+            android:id="@+id/comparebefore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="2dip"
+            android:text="전일 대비"
+            android:textSize="16dip"
+            android:textStyle="bold" />
+
+        <!-- 전일대비 vlaue -->
+
+        <TextView
+            android:id="@+id/comparebefore_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="2dip"
+            android:textSize="14dip"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:showDividers="beginning" >
+
+        <!-- 매수가 Name -->
+
+        <TextView
+            android:id="@+id/buyprice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="2dip"
+            android:text="매수가 "
+            android:textSize="16dip"
+            android:textStyle="bold" />
+
+        <!-- 매수가 vlaue -->
+
+        <TextView
+            android:id="@+id/buyprice_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="2dip"
+            android:textSize="14dip"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:showDividers="beginning" >
+
+        <!-- 수익률 Name -->
+
+        <TextView
+            android:id="@+id/profit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="2dip"
+            android:text="수익률"
+            android:textSize="16dip"
+            android:textStyle="bold" />
+
+        <!-- 수익률 vlaue -->
+
+        <TextView
+            android:id="@+id/profit_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="2dip"
+            android:textSize="14dip"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+</LinearLayout>

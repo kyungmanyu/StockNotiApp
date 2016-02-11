@@ -3,6 +3,8 @@ package com.joyful.stock;
 import java.util.ArrayList;
 import java.util.Map;
 
+import com.joyful.stock.gcm.MyInstanceIDListenerService;
+
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -33,6 +35,9 @@ public class MainActivity extends Activity implements GetCurrentPriceAsyncTask.C
 
         this.setTitle("주식 관리앱");
 
+        Intent intent = new Intent(this, MyInstanceIDListenerService.class);
+        startService(intent);
+        
         Thread setList = new Thread(new Runnable() {
 
             @Override

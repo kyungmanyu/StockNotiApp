@@ -16,11 +16,25 @@ import java.io.IOException;
 public class MyInstanceIDListenerService extends IntentService {
 
     private static final String TAG = "RegIntentService";
-    private static final String[] TOPICS = {"global"};
+    private static final String[] TOPICS = { "global" };
     private static final String SENDER_ID = "662614584412";
 
     public MyInstanceIDListenerService() {
         super(TAG);
+    }
+    
+    @Override
+    public void onCreate() {
+        // TODO Auto-generated method stub
+        Log.i(TAG, "GCM Registration oncreate");
+        super.onCreate();
+    }
+    
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        // TODO Auto-generated method stub
+        Log.i(TAG, "GCM Registration Token: " + intent);
+        return super.onStartCommand(intent, flags, startId);
     }
 
     @Override
@@ -49,17 +63,17 @@ public class MyInstanceIDListenerService extends IntentService {
             // You should store a boolean that indicates whether the generated token has been
             // sent to your server. If the boolean is false, send the token to your server,
             // otherwise your server should have already received the token.
-//            sharedPreferences.edit().putBoolean(QuickstartPreferences.SENT_TOKEN_TO_SERVER, true).apply();
+            //            sharedPreferences.edit().putBoolean(QuickstartPreferences.SENT_TOKEN_TO_SERVER, true).apply();
             // [END register_for_gcm]
         } catch (Exception e) {
             Log.d(TAG, "Failed to complete token refresh", e);
             // If an exception happens while fetching the new token or updating our registration data
             // on a third-party server, this ensures that we'll attempt the update at a later time.
-//            sharedPreferences.edit().putBoolean(QuickstartPreferences.SENT_TOKEN_TO_SERVER, false).apply();
+            //            sharedPreferences.edit().putBoolean(QuickstartPreferences.SENT_TOKEN_TO_SERVER, false).apply();
         }
         // Notify UI that registration has completed, so the progress indicator can be hidden.
-//        Intent registrationComplete = new Intent(QuickstartPreferences.REGISTRATION_COMPLETE);
-//        LocalBroadcastManager.getInstance(this).sendBroadcast(registrationComplete);
+        //        Intent registrationComplete = new Intent(QuickstartPreferences.REGISTRATION_COMPLETE);
+        //        LocalBroadcastManager.getInstance(this).sendBroadcast(registrationComplete);
     }
 
     /**
@@ -72,6 +86,7 @@ public class MyInstanceIDListenerService extends IntentService {
      */
     private void sendRegistrationToServer(String token) {
         // Add custom implementation, as needed.
+        Log.e("kyungman", "kyungman client token : " + token);
     }
 
     /**

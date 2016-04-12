@@ -139,12 +139,17 @@ public class MyInstanceIDListenerService extends IntentService {
 			os = conn.getOutputStream();
 			os.write(insertToken.toString().getBytes());
 			os.flush();
+			
+			os.close();
+			conn.connect();
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 		Log.e("kyungman", "kyungman url : " + conn.getURL());
+		Log.e("kyungman", "kyungman url toString : " + conn.toString());
 
 	}
 

@@ -19,7 +19,7 @@ public class jongmokList {
     static HashMap<String, String> productTitlesMap = new HashMap<>();
     static ArrayList<String> products = new ArrayList<>();;
     static ArrayList<String> productItems = new ArrayList<>();;
-    static Set<String> stockCodes = new LinkedHashSet<>();
+   
 
     public static ArrayList<String> getList(Context context) {
         if (products.size() < 1) {
@@ -29,7 +29,7 @@ public class jongmokList {
     }
 
     public static void addStockCode(Context context, String stockItem) {
-
+        Set<String> stockCodes = new LinkedHashSet<>();
         if (Util.getStockCodes(context) != null) {
             stockCodes = Util.getStockCodes(context);
         }
@@ -40,7 +40,7 @@ public class jongmokList {
     }
 
     public static void removeStockCode(Context context, String stockItem) {
-
+        Set<String> stockCodes = new LinkedHashSet<>();
         if (Util.getStockCodes(context) != null) {
             stockCodes = Util.getStockCodes(context);
         }
@@ -54,6 +54,11 @@ public class jongmokList {
     public static String getStockItem(String stockName) {
 
         return productList.get(stockName);
+    }
+    
+    public static void setStockItem(String stockName, String stockCode) {
+
+        productList.put(stockName, stockCode);
     }
 
     public static String getStockName(String stockCode) {

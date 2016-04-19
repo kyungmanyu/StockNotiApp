@@ -81,38 +81,7 @@ public class EditStockItemActivity extends Activity implements OnClickListener,
             }
         }
     }
-//
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.detail, menu);
-//
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//
-//        int id = item.getItemId();
-//      if (id == R.id.delete) {
-//          if (mCurrentItemNumber != null) {
-//              jongmokList.removeStockCode(this, mCurrentItemNumber);
-//              finish();
-//          }
-//
-//
-//            return true;
-//        }else if(id == R.id.action_detail){
-//            Intent editIntent = new Intent(this, StockDetailActivity.class);
-//            editIntent.putExtra("code_num", mCurrentItemNumber);
-//            startActivity(editIntent);
-//
-//            
-//            return true;
-//        }
-//      
-//        return super.onOptionsItemSelected(item);
-//    }
+
     
     @Override
     public void onClick(View arg0) {

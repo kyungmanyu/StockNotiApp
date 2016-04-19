@@ -46,6 +46,16 @@ public class Util {
         Log.i("", "[Test][putInt] key = " + key + " / itemId = " + itemId + " / inputVal = "
                 + inputVal);
     }
+    
+    public static void removeInt(Context context, String key, String itemId, int inputVal) {
+        SharedPreferences pref = context.getApplicationContext().getSharedPreferences(PREF_NAME,
+                Context.MODE_PRIVATE);        
+        pref.edit().remove(itemId + "." + key).commit();
+        Log.i("", "[Test][putInt] key = " + key + " / itemId = " + itemId + " / inputVal = "
+                + inputVal);
+    }
+    
+    
 
     public static String getStockProfit(Context context, String key) {
         SharedPreferences pref = context.getApplicationContext().getSharedPreferences(PREF_NAME,

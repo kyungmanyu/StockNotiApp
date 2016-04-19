@@ -1,6 +1,16 @@
 /** @author kyungman.yu  2015. 7. 7. **/
 package com.joyful.stock;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
+
+import org.xml.sax.XMLReader;
+import org.xmlpull.v1.XmlPullParser;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,12 +33,15 @@ public class SearchJongmok extends Activity {
 
     // Search EditText
     EditText inputSearch;
-
+    public static final String SEARCH_HEADER = "http://api.seibro.or.kr/openapi/service/StockSvc/getStkIsinByNm?secnNm=";
+    public static final String SEARCH_REAR = "&numOfRows=5&pageNo=1&ServiceKey=VIvbq5r67gHSKdMzbUHwLcowQq6knUBAhfRqbcRSY4lh0TgbWo9ZZ07DNTDDWT5huIcFVYdyEfWeA7NPeeTF3w%3D%3D";
+    
+    private ArrayList<String> searchlist = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         setContentView(R.layout.searchlist);
-
+        
         lv = (ListView)findViewById(R.id.list_view);
         inputSearch = (EditText)findViewById(R.id.inputSearch);
 
@@ -68,6 +81,18 @@ public class SearchJongmok extends Activity {
             public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
                 // When user changed the Text
                 SearchJongmok.this.adapter.getFilter().filter(cs);
+//                searchList(cs);
+//                HttpURLConnection conn = null;
+//                URL url = null;
+//                BufferedReader br = null;
+//                try {
+//                    url = new URL(SEARCH_HEADER+cs+SEARCH_REAR);
+//                    conn = (HttpURLConnection)url.openConnection();
+//                    InputStream in = new BufferedInputStream(conn.getInputStream());
+//                    XMLReader parser = new X
+//                }catch(Exception ex){
+//                    
+//                }
             }
 
             @Override

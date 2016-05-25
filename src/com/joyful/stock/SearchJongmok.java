@@ -4,7 +4,6 @@ package com.joyful.stock;
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -13,9 +12,9 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.w3c.dom.Element;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -109,7 +108,7 @@ public class SearchJongmok extends Activity {
                
                 
                 
-//                SearchJongmok.this.adapter.getFilter().filter(cs);
+                SearchJongmok.this.adapter.getFilter().filter(cs);
             }
             
             

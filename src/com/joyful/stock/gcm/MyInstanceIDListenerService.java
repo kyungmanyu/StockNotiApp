@@ -12,6 +12,7 @@ import org.json.JSONObject;
 import com.google.android.gms.gcm.GcmPubSub;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
+import com.joyful.stock.Util;
 
 import android.app.IntentService;
 import android.content.Context;
@@ -26,6 +27,7 @@ public class MyInstanceIDListenerService extends IntentService {
 	private static final String TAG = "RegIntentService";
 	private static final String[] TOPICS = { "global" };
 	private static final String SENDER_ID = "662614584412";
+	private String mDeviceID;
 
 	public MyInstanceIDListenerService() {
 		super(TAG);
@@ -35,7 +37,25 @@ public class MyInstanceIDListenerService extends IntentService {
 	public void onCreate() {
 		// TODO Auto-generated method stub
 		Log.i(TAG, "GCM Registration oncreate");
+
+		// if (checkSelfPermission(Manifest.permission.READ_PHONE_STATE)
+		// != PackageManager.PERMISSION_GRANTED) {
+		// requestPermissions(new
+		// String[]{Manifest.permission.READ_PHONE_STATE},
+		// PERMISSIONS_REQUEST_READ_PHONE_STATE);
+		// } else {
+		// setDeviceImei();
+		// }
+		setDeviceImei();
 		super.onCreate();
+	}
+
+	private void setDeviceImei() {
+		// TODO Auto-generated method stub
+		TelephonyManager mngr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+		// mDeviceID = mngr.getDeviceId();
+
+		mDeviceID = "1";
 	}
 
 	@Override
@@ -60,17 +80,19 @@ public class MyInstanceIDListenerService extends IntentService {
 			// for details on this file.
 			// [START get_token]
 			InstanceID instanceID = InstanceID.getInstance(this);
-			String token = instanceID.getToken(SENDER_ID, GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
-			// [END get_token]
-			Log.i(TAG, "GCM Registration Token: " + token);
+			if (Util.getGcmToken(this) == null) {
+				String token = instanceID.getToken(SENDER_ID, GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
+				// [END get_token]
+				Log.i(TAG, "GCM Registration Token: " + token);
+				Util.setGcmToken(this, token);
 
-			// TODO: Implement this method to send any registration to your
-			// app's servers.
-			sendRegistrationToServer(token);
+				// TODO: Implement this method to send any registration to your
+				// app's servers.
+				sendRegistrationToServer(token);
 
-			// Subscribe to topic channels
-			subscribeTopics(token);
-
+				// Subscribe to topic channels
+				subscribeTopics(token);
+			}
 			// You should store a boolean that indicates whether the generated
 			// token has been
 			// sent to your server. If the boolean is false, send the token to
@@ -109,48 +131,93 @@ public class MyInstanceIDListenerService extends IntentService {
 		Log.e("kyungman", "kyungman client token : " + token);
 		URL url = null;
 		OutputStream os = null;
-		TelephonyManager mngr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+		mDeviceID = "1";
 		try {
-			url = new URL("http://suah.iptime.org:9000/savegcm");
-
+			// url = new URL("http://suah.iptime.org:9000/savegcm");
+			String urltoken = "http://192.168.129.133:9000/savegcm?" + "id=" + mDeviceID + "&token=" + token;
+			url = new URL(urltoken);
+			Log.e("kyungman", "kyungman url : " + url.getPath());
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
+			Log.e("kyungman", "MalformedURLException: " + e.getMessage());
 			e.printStackTrace();
 		}
 		HttpURLConnection conn = null;
 		try {
 			conn = (HttpURLConnection) url.openConnection();
-			conn.setRequestMethod("GET");
+			Log.e("kyungman", "kyungman conn : " + conn.getContentEncoding());
+			conn.setDoOutput(true);
+			// conn.setDoInput(true);
+			conn.setRequestMethod("POST");
 			conn.setRequestProperty("Cache-Control", "no-cache");
 			conn.setRequestProperty("Content-Type", "application/json");
 			conn.setRequestProperty("Accept", "application/json");
-			conn.setDoOutput(true);
-			conn.setDoInput(true);
 
 			JSONObject insertToken = new JSONObject();
 			try {
-				insertToken.put("id", mngr.getDeviceId());
+				insertToken.put("id", mDeviceID);
 				insertToken.put("token", token);
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
+				Log.e("kyungman", "JSONException: " + e.getMessage());
 				e.printStackTrace();
 			}
-
+			Log.e("kyungman", "kyungman insertToken.toString() : " + insertToken.toString());
 			os = conn.getOutputStream();
 			os.write(insertToken.toString().getBytes());
 			os.flush();
-			
+			Log.e("kyungman", "kyungman conngetURLgetPath : " + conn.getURL().getPath());
 			os.close();
 			conn.connect();
-			
+
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
+			Log.e("kyungman", "IOException: " + e.getMessage());
 			e.printStackTrace();
 		}
 
 		Log.e("kyungman", "kyungman url : " + conn.getURL());
 		Log.e("kyungman", "kyungman url toString : " + conn.toString());
 
+	}
+
+	private void sendGcmData() {
+		// Add custom implementation, as needed.
+
+		URL url = null;
+		OutputStream os = null;
+
+		try {
+			// url = new URL("http://suah.iptime.org:9000/savegcm");
+			url = new URL("http://192.168.129.133:9000/sendgcm");
+			Log.e("kyungman", "kyungman url : " + url.getPath());
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			Log.e("kyungman", "MalformedURLException: " + e.getMessage());
+			e.printStackTrace();
+		}
+		HttpURLConnection conn = null;
+		try {
+			conn = (HttpURLConnection) url.openConnection();
+			Log.e("kyungman", "kyungman conn : " + conn.getContentEncoding());
+			conn.setDoOutput(true);
+			// conn.setDoInput(true);
+			conn.setRequestMethod("POST");
+			conn.setRequestProperty("Cache-Control", "no-cache");
+			conn.setRequestProperty("Content-Type", "application/json");
+			conn.setRequestProperty("Accept", "application/json");
+
+			os.close();
+			conn.connect();
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			Log.e("kyungman", "IOException: " + e.getMessage());
+			e.printStackTrace();
+		}
+
+		Log.e("kyungman", "kyungman url : " + conn.getURL());
+		Log.e("kyungman", "kyungman url toString : " + conn.toString());
 	}
 
 	/**

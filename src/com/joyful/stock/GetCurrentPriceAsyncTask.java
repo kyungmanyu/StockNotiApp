@@ -58,10 +58,10 @@ public class GetCurrentPriceAsyncTask extends
     private void setItemList(Context context) {
 
         Set<String> temp = Util.getStockCodes(context);
-        Log.e("stock", "setItemList temp size : "+temp.size());
-        Log.e("stock", "setItemList temp tostring : "+temp.toString());
+      
         if (temp != null) {
-  
+        	Log.e("stock", "setItemList temp size : "+temp.size());
+            Log.e("stock", "setItemList temp tostring : "+temp.toString());
             Iterator<String> ir = temp.iterator();
             while (ir.hasNext()) {
                 mItemNumList.add(ir.next());

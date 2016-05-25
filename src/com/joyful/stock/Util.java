@@ -23,6 +23,7 @@ public class Util {
     public static final String STOCK_CODES = "stock_codes";
     public static final String DATE_LIST = "date_list";
     public static final String UPDATE_FLAG = "update_flag";
+    public static final String GCM_TOKEN = "gcm_token";
 
     public static final int ALARM_REQ_ID = 0;
 
@@ -69,6 +70,20 @@ public class Util {
                 Context.MODE_PRIVATE);
         pref.edit().clear();
         pref.edit().putString(key, profit).commit();
+    }
+    
+    public static String getGcmToken(Context context) {
+        SharedPreferences pref = context.getApplicationContext().getSharedPreferences(PREF_NAME,
+                Context.MODE_PRIVATE);
+        return pref.getString(GCM_TOKEN, null);
+
+    }
+    
+    public static void setGcmToken(Context context, String token) {
+        SharedPreferences pref = context.getApplicationContext().getSharedPreferences(PREF_NAME,
+                Context.MODE_PRIVATE);
+        pref.edit().clear();
+        pref.edit().putString(GCM_TOKEN, token).commit();
     }
 
     public static boolean getFlag(Context context) {

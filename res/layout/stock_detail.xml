@@ -9,19 +9,5 @@
         android:layout_height="match_parent"
          />
 
-    <com.fsn.cauly.CaulyAdView
-        xmlns:app="http://schemas.android.com/apk/res/com.joyful.stock"
-        android:id="@+id/xmladview"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_gravity="bottom"
-        android:gravity="bottom"
-        app:appcode="KxNohX1C"
-        app:bannerHeight="Fixed"
-        app:dynamicReloadInterval="true"
-        app:effect="RightSlide"
-        app:reloadInterval="3" >
-    </com.fsn.cauly.CaulyAdView>
 
 </RelativeLayout>

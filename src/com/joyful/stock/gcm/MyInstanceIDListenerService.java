@@ -14,10 +14,12 @@ import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
 import com.joyful.stock.Util;
 
+import android.Manifest;
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
 import android.util.Log;
@@ -27,7 +29,6 @@ public class MyInstanceIDListenerService extends IntentService {
 	private static final String TAG = "RegIntentService";
 	private static final String[] TOPICS = { "global" };
 	private static final String SENDER_ID = "662614584412";
-	private String mDeviceID;
 
 	public MyInstanceIDListenerService() {
 		super(TAG);
@@ -38,26 +39,12 @@ public class MyInstanceIDListenerService extends IntentService {
 		// TODO Auto-generated method stub
 		Log.i(TAG, "GCM Registration oncreate");
 
-		// if (checkSelfPermission(Manifest.permission.READ_PHONE_STATE)
-		// != PackageManager.PERMISSION_GRANTED) {
-		// requestPermissions(new
-		// String[]{Manifest.permission.READ_PHONE_STATE},
-		// PERMISSIONS_REQUEST_READ_PHONE_STATE);
-		// } else {
-		// setDeviceImei();
-		// }
-		setDeviceImei();
 		super.onCreate();
 	}
 
-	private void setDeviceImei() {
-		// TODO Auto-generated method stub
-		TelephonyManager mngr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-		// mDeviceID = mngr.getDeviceId();
+	
 
-		mDeviceID = "1";
-	}
-
+	
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		// TODO Auto-generated method stub
@@ -131,10 +118,10 @@ public class MyInstanceIDListenerService extends IntentService {
 		Log.e("kyungman", "kyungman client token : " + token);
 		URL url = null;
 		OutputStream os = null;
-		mDeviceID = "1";
+
 		try {
 			// url = new URL("http://suah.iptime.org:9000/savegcm");
-			String urltoken = "http://192.168.129.133:9000/savegcm?" + "id=" + mDeviceID + "&token=" + token;
+			String urltoken = "http://suah.iptime.org:9000/savegcm?" + "id=" + Util.sDeviceId + "&token=" + token;
 			url = new URL(urltoken);
 			Log.e("kyungman", "kyungman url : " + url.getPath());
 		} catch (MalformedURLException e) {
@@ -155,7 +142,7 @@ public class MyInstanceIDListenerService extends IntentService {
 
 			JSONObject insertToken = new JSONObject();
 			try {
-				insertToken.put("id", mDeviceID);
+				insertToken.put("id", Util.sDeviceId );
 				insertToken.put("token", token);
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block

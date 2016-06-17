@@ -11,6 +11,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 
 public class Util {
@@ -26,6 +27,7 @@ public class Util {
     public static final String GCM_TOKEN = "gcm_token";
 
     public static final int ALARM_REQ_ID = 0;
+    public static String sDeviceId;
 
     public static int getInt(Context context, String key, String itemId, int defaultVal) {
 
@@ -240,5 +242,13 @@ public class Util {
                 Context.MODE_PRIVATE);
         return pref.getStringSet(DATE_LIST, null);
     }
+
+    
+	public static void setDeviceImei(Context context) {
+		// TODO Auto-generated method stub
+		TelephonyManager mngr = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+		sDeviceId = mngr.getDeviceId();
+		Log.e("kyungman", "device id = "+sDeviceId);
+	}
 
 }

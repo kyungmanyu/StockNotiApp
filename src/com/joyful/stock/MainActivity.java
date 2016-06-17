@@ -5,11 +5,13 @@ import java.util.Map;
 
 import com.joyful.stock.gcm.MyInstanceIDListenerService;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -26,7 +28,7 @@ public class MainActivity extends Activity implements GetCurrentPriceAsyncTask.C
     private ListView mStockList;
     private StockItemAdapter mStockItemAdapter;
     private BroadcastReceiver mRefreshReceiver;
-
+    private static final int PERMISSIONS_REQUEST_READ_PHONE_STATE = 10;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +36,14 @@ public class MainActivity extends Activity implements GetCurrentPriceAsyncTask.C
         setContentView(R.layout.activity_main);
 
         this.setTitle("주식 관리앱");
+        
+        if (checkSelfPermission(Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+			requestPermissions(new String[] { Manifest.permission.READ_PHONE_STATE },
+					PERMISSIONS_REQUEST_READ_PHONE_STATE);
+		} else {
+			Util.setDeviceImei(this);
+		}
+        
 
         Intent intent = new Intent(this, MyInstanceIDListenerService.class);
         startService(intent);
@@ -49,6 +59,17 @@ public class MainActivity extends Activity implements GetCurrentPriceAsyncTask.C
         setList.start();
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    	if (requestCode == PERMISSIONS_REQUEST_READ_PHONE_STATE
+				&& grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+    		Util.setDeviceImei(this);
+		} else {
+			finish();
+		}
+    };
+  
+    
     class RefreshReceiver extends BroadcastReceiver {
 
         @Override

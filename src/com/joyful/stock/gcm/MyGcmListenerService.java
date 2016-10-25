@@ -1,18 +1,19 @@
 package com.joyful.stock.gcm;
 
+import com.google.android.gms.gcm.GcmListenerService;
+import com.joyful.stock.MainActivity;
+import com.joyful.stock.R;
+
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
-
-import com.google.android.gms.gcm.GcmListenerService;
-import com.joyful.stock.MainActivity;
-import com.joyful.stock.R;
 
 public class MyGcmListenerService extends GcmListenerService {
 
@@ -71,7 +72,10 @@ public class MyGcmListenerService extends GcmListenerService {
 
 		Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 		NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
+				
 				.setSmallIcon(R.drawable.noti).setContentTitle(title).setContentText(message).setAutoCancel(true)
+				.setStyle(new NotificationCompat.BigTextStyle().bigText(message))
+				.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.noti))
 				.setSound(defaultSoundUri).setContentIntent(pendingIntent);
 
 		NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);

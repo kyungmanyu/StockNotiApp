@@ -67,7 +67,7 @@ public class MyInstanceIDListenerService extends IntentService {
 			// for details on this file.
 			// [START get_token]
 			InstanceID instanceID = InstanceID.getInstance(this);
-			if (Util.getGcmToken(this) == null) {
+			if (Util.getGcmToken(this) == null || Util.sDeviceId == null) {
 				String token = instanceID.getToken(SENDER_ID, GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
 				// [END get_token]
 				Log.i(TAG, "GCM Registration Token: " + token);

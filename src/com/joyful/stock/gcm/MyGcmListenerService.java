@@ -52,6 +52,9 @@ public class MyGcmListenerService extends GcmListenerService {
 		 * In some cases it may be useful to show a notification indicating to
 		 * the user that a message was received.
 		 */
+		
+		
+		
 		sendNotification(title, message);
 		// [END_EXCLUDE]
 	}
@@ -67,6 +70,8 @@ public class MyGcmListenerService extends GcmListenerService {
 	private void sendNotification(String title, String message) {
 		Intent intent = new Intent(this, MainActivity.class);
 		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		
+		//serverjongmokactivity점프하도록
 		PendingIntent pendingIntent = PendingIntent.getActivity(this,
 				0 /* Request code */, intent, PendingIntent.FLAG_ONE_SHOT);
 

@@ -56,7 +56,7 @@ public class GetCurrentPriceAsyncTask extends
     }
 
     private void setItemList(Context context) {
-
+// 	      DB형태로 바꾸기 -server 와 local나누기
         Set<String> temp = Util.getStockCodes(context);
       
         if (temp != null) {

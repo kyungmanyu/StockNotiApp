@@ -1,21 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="200dp"
-    android:minHeight="150dp"
+    android:layout_height="300dp"
+    android:minHeight="200dp"
     android:orientation="vertical" >
-     
-    <!-- Editext for Search -->
-    <EditText android:id="@+id/inputSearch"
+
+    <EditText
+        android:id="@+id/inputSearch"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:hint="Search.."
-        android:inputType="text"/>
-  
+        android:inputType="text" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:layout_marginLeft="5dp"
+            android:gravity="center_vertical"
+            android:text="신규 종목인 경우나 검색이 안되시는 경우에 종목 이름을 입력 한뒤, 종목 갱신 버튼을 눌러 주세요." 
+            android:textSize="10sp"/>
+
+        <Button
+            android:id="@+id/refreshbtn"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:text="종목 갱신"
+            android:textSize="10sp" />
+    </LinearLayout>
     <!-- List View -->
+
     <ListView
         android:id="@+id/list_view"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" />
-  
+
 </LinearLayout>

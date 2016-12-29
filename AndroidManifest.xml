@@ -8,30 +8,34 @@
         android:minSdkVersion="14"
         android:targetSdkVersion="23" />
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
-    <permission android:name="com.joyful.stock.permission.C2D_MESSAGE"
-        android:protectionLevel="signature" />
-    <uses-permission android:name="com.joyful.stock.permission.C2D_MESSAGE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <uses-permission android:name="com.joyful.stock.permission.C2D_MESSAGE" />
 
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
-        android:theme="@android:style/Theme.Material.Light"
-        android:label="@string/app_name" >
-        
-          <receiver
+        android:label="@string/app_name"
+        android:theme="@android:style/Theme.Material.Light" >
+        <provider
+            android:name="com.joyful.stock.db.StockDBProvider"
+            android:authorities="com.joyful.stock.provider"
+            android:exported="true" >
+        </provider>
+
+        <receiver
             android:name="com.google.android.gms.gcm.GcmReceiver"
             android:exported="true"
             android:permission="com.google.android.c2dm.permission.SEND" >
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-                <category android:name="com.example.gcm" />
+                <category android:name="com.joyful.stock" />
             </intent-filter>
         </receiver>
+
         <service
             android:name=".gcm.MyGcmListenerService"
             android:exported="false" >
@@ -41,14 +45,12 @@
         </service>
         <service
             android:name=".gcm.MyInstanceIDListenerService"
-            android:exported="false">
+            android:exported="false" >
             <intent-filter>
                 <action android:name="com.google.android.gms.iid.InstanceID" />
             </intent-filter>
         </service>
 
-        
-        
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation|screenSize"
@@ -62,9 +64,8 @@
         <activity
             android:name=".SearchJongmok"
             android:configChanges="orientation|screenSize"
-            android:label="@string/app_name"            
-            android:theme="@android:style/Theme.DeviceDefault.Dialog.NoActionBar"
-            >
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.DeviceDefault.Dialog.NoActionBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>

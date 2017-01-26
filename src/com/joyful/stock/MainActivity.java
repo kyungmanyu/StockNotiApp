@@ -18,8 +18,10 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -29,6 +31,7 @@ public class MainActivity extends Activity implements GetCurrentPriceAsyncTask.C
     private StockItemAdapter mStockItemAdapter;
     private BroadcastReceiver mRefreshReceiver;
     private static final int PERMISSIONS_REQUEST_READ_PHONE_STATE = 10;
+    
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,16 +40,15 @@ public class MainActivity extends Activity implements GetCurrentPriceAsyncTask.C
 
         this.setTitle("주식 관리앱");
         
-        if (checkSelfPermission(Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
-			requestPermissions(new String[] { Manifest.permission.READ_PHONE_STATE },
-					PERMISSIONS_REQUEST_READ_PHONE_STATE);
-		} else {
-			Util.setDeviceImei(this);
-		}
+//        if (checkSelfPermission(Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+//			requestPermissions(new String[] { Manifest.permission.READ_PHONE_STATE },
+//					PERMISSIONS_REQUEST_READ_PHONE_STATE);
+//		} else {
+//			Util.setDeviceImei(this);
+//		}
         
 
-        Intent intent = new Intent(this, MyInstanceIDListenerService.class);
-        startService(intent);
+       
         
         Thread setList = new Thread(new Runnable() {
 
@@ -57,17 +59,42 @@ public class MainActivity extends Activity implements GetCurrentPriceAsyncTask.C
             }
         });
         setList.start();
+        
+        Button btnserver = (Button)findViewById(R.id.server);
+        btnserver.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent i = new Intent(getApplicationContext(), ServerJongmokActivity.class);
+				i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				startActivity(i);
+				overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+			}
+		});
+        Button btnprofit = (Button)findViewById(R.id.profit);
+        btnprofit.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent i = new Intent(getApplicationContext(), Serverprofit.class);
+				i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				startActivity(i);
+				overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+			}
+		});
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-    	if (requestCode == PERMISSIONS_REQUEST_READ_PHONE_STATE
-				&& grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-    		Util.setDeviceImei(this);
-		} else {
-			finish();
-		}
-    };
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+//    	if (requestCode == PERMISSIONS_REQUEST_READ_PHONE_STATE
+//				&& grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//    		Util.setDeviceImei(this);
+//		} else {
+//			finish();
+//		}
+//    };
   
     
     class RefreshReceiver extends BroadcastReceiver {
@@ -153,7 +180,7 @@ public class MainActivity extends Activity implements GetCurrentPriceAsyncTask.C
             return true;
         } else if (id == R.id.search) {
             Intent search = new Intent(this, SearchJongmok.class);
-            startActivityForResult(search, 100);
+            startActivity(search);
 
             return true;
         } else if (id == R.id.help) {

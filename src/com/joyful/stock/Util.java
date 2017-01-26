@@ -220,11 +220,21 @@ public class Util {
 		return pref.getStringSet(DATE_LIST, null);
 	}
 
-	public static void setDeviceImei(Context context) {
+	public static void setDeviceImei(Context context, String gmail) {
 		// TODO Auto-generated method stub
-		TelephonyManager mngr = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-		sDeviceId = mngr.getDeviceId();
-		Log.e("kyungman", "device id = " + sDeviceId);
+		SharedPreferences pref = context.getApplicationContext().getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+		pref.edit().clear();
+		pref.edit().putString("account", gmail).commit();
+		sDeviceId = gmail;
+
+	}
+
+	public static String getDeviceImei(Context context) {
+		// TODO Auto-generated method stub
+		SharedPreferences pref = context.getApplicationContext().getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+
+		return pref.getString("account", null);
+
 	}
 
 	public static boolean getDBUpdateFlag(Context context) {

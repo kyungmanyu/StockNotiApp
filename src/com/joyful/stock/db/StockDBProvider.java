@@ -16,11 +16,12 @@ public class StockDBProvider extends ContentProvider {
 	protected String mTableName;
 
 	private static final int JONGMOK_TABLE = 10;
+	private static final int JONGMOK_TABLE_SERVER = 20;
 
 
 	static {
 		sURIMatcher.addURI(StockDBConstant.AUTHORITY, StockDBConstant.JONGMOK_TABLE_NAME, JONGMOK_TABLE);
-
+		sURIMatcher.addURI(StockDBConstant.AUTHORITY, StockDBConstant.JONGMOK_TABLE_NAME_SERVER, JONGMOK_TABLE_SERVER);
 	}
 
 	@Override
@@ -82,7 +83,9 @@ public class StockDBProvider extends ContentProvider {
 	            tableName = StockDBConstant.JONGMOK_TABLE_NAME;
 	            break;
 
-
+	        case JONGMOK_TABLE_SERVER:
+	            tableName = StockDBConstant.JONGMOK_TABLE_NAME_SERVER;
+	            break;
 	        default:
 	            throw new IllegalArgumentException("Unknown URI: " + uri);
 	        }

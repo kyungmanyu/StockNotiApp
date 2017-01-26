@@ -11,6 +11,12 @@ public class StockDBopenHelpler extends SQLiteOpenHelper {
 			+ StockDBConstant.ID + " INTEGER PRIMARY KEY autoincrement," + StockDBConstant.NAME + " TEXT,"
 			+ StockDBConstant.CODE + " TEXT" + ")";
 
+	private static final String CREATE_TABLE_JONGMOK_SERVER = "CREATE TABLE "
+			+ StockDBConstant.JONGMOK_TABLE_NAME_SERVER + "(" + StockDBConstant.ID
+			+ " INTEGER PRIMARY KEY autoincrement," + StockDBConstant.NAMESERVER + " TEXT," + StockDBConstant.PRICE
+			+ " TEXT," + StockDBConstant.LOWPRICE + " TEXT," + StockDBConstant.HIGHPRICE + " TEXT,"
+			+ StockDBConstant.SELLDAY + " TEXT," + StockDBConstant.SELLSTEP + " TEXT" + ")";
+
 	public StockDBopenHelpler(Context context, String name, CursorFactory factory, int version) {
 		super(context, name, factory, version);
 		// TODO Auto-generated constructor stub
@@ -20,6 +26,7 @@ public class StockDBopenHelpler extends SQLiteOpenHelper {
 	public void onCreate(SQLiteDatabase db) {
 		// TODO Auto-generated method stub
 		db.execSQL(CREATE_TABLE_JONGMOK);
+		db.execSQL(CREATE_TABLE_JONGMOK_SERVER);
 	}
 
 	@Override

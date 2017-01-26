@@ -3,5 +3,7 @@
 
     <color name="color_blue">#6666ff</color>
     <color name="color_red">#FF3333</color>
+    <color name="pressed">#000000</color>
+    <color name="nonpressed">#2e3843</color>
 
 </resources>

@@ -79,6 +79,7 @@ public class StockItemAdapter extends BaseAdapter {
 
             if (mListMap.get(codeNum) != null) {
 
+            	//서버 추천주 가격 넣기
                 double buyPrice = Util.getInt(mContext, Util.PURCHASE_POINT,
                         codeNum, 0);
                 double currentPrice = Integer.parseInt(mListMap.get(codeNum).get(0));

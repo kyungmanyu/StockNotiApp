@@ -3,6 +3,7 @@ package com.joyful.stock.gcm;
 import com.google.android.gms.gcm.GcmListenerService;
 import com.joyful.stock.MainActivity;
 import com.joyful.stock.R;
+import com.joyful.stock.ServerJongmokActivity;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -68,7 +69,7 @@ public class MyGcmListenerService extends GcmListenerService {
 	 *            GCM message received.
 	 */
 	private void sendNotification(String title, String message) {
-		Intent intent = new Intent(this, MainActivity.class);
+		Intent intent = new Intent(this, ServerJongmokActivity.class);
 		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		
 		//serverjongmokactivity점프하도록

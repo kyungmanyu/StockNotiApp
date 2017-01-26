@@ -25,7 +25,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
-public class GetCurrentPriceAsyncTask extends AsyncTask<Void, Void, Map<String, ArrayList<String>>> {
+public class GetCurrentPriceAsyncTaskServer extends AsyncTask<Void, Void, Map<String, ArrayList<String>>> {
 
 	private Callback mCallback = EmptyCallback.INSTANCE;
 
@@ -51,7 +51,7 @@ public class GetCurrentPriceAsyncTask extends AsyncTask<Void, Void, Map<String, 
 		}
 	}
 
-	public GetCurrentPriceAsyncTask() {
+	public GetCurrentPriceAsyncTaskServer() {
 
 	}
 
@@ -71,25 +71,36 @@ public class GetCurrentPriceAsyncTask extends AsyncTask<Void, Void, Map<String, 
 
 	}
 
-	public GetCurrentPriceAsyncTask(Context context, final ArrayList<String> itemNumList, Callback callback) {
+	public GetCurrentPriceAsyncTaskServer(Context context, final ArrayList<String> itemNumList, Callback callback) {
 		Log.w("", "[Test] GetCurrentPriceAsyncTask() - Context");
 		mContext = context;
 		if (itemNumList == null) {
 
-			setItemList(mContext);
+			setItemFromServer(mContext);
 		} else {
 			mItemNumList = itemNumList;
-
+			
 		}
 		mCallback = (callback == null) ? EmptyCallback.INSTANCE : callback;
 	}
 
-	public GetCurrentPriceAsyncTask(Activity activity, final ArrayList<String> itemNumList, Callback callback) {
+	private void setItemFromServer(Context context) {
+		// TODO Auto-generated method stub
+		ArrayList<String> jongmoklist = StockDBUpdater.getJongMokServer(context.getContentResolver());
+		Log.e("", "[Test] conn.. :: jongmoklist : "+jongmoklist.toString());
+		for (int i = 0; i < jongmoklist.size(); i++) {
+			Log.e("", "[Test] conn.. :: jongmokList.getStockItem(jongmoklist.get(i)) : "+jongmokList.getStockItem(jongmoklist.get(i)));
+			mItemNumList.add(jongmokList.getStockItem(jongmoklist.get(i)));
+		}
+	}
+
+	public GetCurrentPriceAsyncTaskServer(Activity activity, final ArrayList<String> itemNumList, Callback callback) {
 		Log.w("", "[Test] GetCurrentPriceAsyncTask() - Activity!!");
 		mParentActivity = activity;
 		mContext = activity.getApplicationContext();
+	
 		if (itemNumList == null) {
-			setItemList(mContext);
+			setItemFromServer(mContext);
 		} else {
 			mItemNumList = itemNumList;
 		}
@@ -100,9 +111,9 @@ public class GetCurrentPriceAsyncTask extends AsyncTask<Void, Void, Map<String, 
 	protected void onPreExecute() {
 		super.onPreExecute();
 
-		if (mParentActivity != null) {
+//		if (mParentActivity != null) {
 			showWaitingDialog("업데이트", "종목 정보 갱신중..");
-		}
+//		}
 
 	}
 
@@ -114,6 +125,7 @@ public class GetCurrentPriceAsyncTask extends AsyncTask<Void, Void, Map<String, 
 		synchronized (this) {
 			if (mItemNumList != null) {
 				for (String itemNum : mItemNumList) {
+					Log.e("", "[Test] conn.. :: itemNum : "+itemNum);
 					ArrayList<String> price = new ArrayList<>();
 					price = findCurrentPrice(NAVER_FINANCE + itemNum);
 					pMap.put(itemNum, price);
@@ -210,8 +222,7 @@ public class GetCurrentPriceAsyncTask extends AsyncTask<Void, Void, Map<String, 
 							break;
 						}
 
-						if (nextCheck == 0 && line.contains(todayDate.trim())) {
-							System.out.println("today :::: " + line);
+						if (nextCheck == 0 && line.contains(todayDate.trim())) {							
 							nextCheck++;
 							continue;
 						}
@@ -226,13 +237,13 @@ public class GetCurrentPriceAsyncTask extends AsyncTask<Void, Void, Map<String, 
 							continue;
 						}
 						if (nextCheck == 3) {
-							System.out.println(line);
+							Log.e("", "[Test] conn.. :: nextCheck 3 line : "+line);
 							arrow = line;
 							nextCheck++;
 							continue;
 						}
 						if (nextCheck == 4) {
-							System.out.println(line);
+							Log.e("", "[Test] conn.. :: nextCheck 4 line : "+line);
 							change = line;
 							nextCheck++;
 							continue;
@@ -245,7 +256,8 @@ public class GetCurrentPriceAsyncTask extends AsyncTask<Void, Void, Map<String, 
 					}
 					String currentPrice = getCurrentPrice(curPrice);
 					String changePercent = getChangePercent(currentPrice, arrow, change);
-
+					Log.e("", "[Test] conn.. :: currentPrice : "+currentPrice);
+					Log.e("", "[Test] conn.. :: changePercent : "+changePercent);
 					retVal.add(currentPrice);
 					retVal.add(changePercent);
 					br.close();

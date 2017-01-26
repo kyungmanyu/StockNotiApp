@@ -38,13 +38,15 @@ public class jongmokList {
 
 	public static void addStockCode(Context context, String stockItem) {
 		Set<String> stockCodes = new LinkedHashSet<>();
+		Set<String> newstockCodes = new LinkedHashSet<>();
 		if (Util.getStockCodes(context) != null) {
 			stockCodes = Util.getStockCodes(context);
 		}
 
-		stockCodes.add(stockItem);
+		newstockCodes.add(stockItem);
+		newstockCodes.addAll(stockCodes);
 		Log.d("addStockCode", "add codelist : " + stockCodes.toString());
-		Util.setStockCodes(context, stockCodes);
+		Util.setStockCodes(context, newstockCodes);
 	}
 
 	public static void removeStockCode(Context context, String stockItem) {

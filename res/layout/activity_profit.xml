@@ -15,7 +15,7 @@
             android:id="@+id/buttonview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="top"            
+            android:gravity="top"
             android:orientation="horizontal" >
 
             <Button
@@ -24,35 +24,33 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/btn_color_selector"
-                android:text="개인 관심 종목" 
-                android:textColor="#FFFFFF"/>
+                android:text="개인 관심 종목"
+                android:textColor="#FFFFFF" />
 
             <Button
                 android:id="@+id/server"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@drawable/btn_color_selector"                
-                android:text="시스템 추천 종목" 
-                android:textColor="#FFFFFF"/>
-            
-              <Button
+                android:background="@drawable/btn_color_selector"
+                android:text="시스템 추천 종목"
+                android:textColor="#FFFFFF" />
+
+            <Button
                 android:id="@+id/profit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@drawable/btn_color_selector"                
-                android:text="시스템 수익률" 
-                android:textColor="#FFFFFF"/>
+                android:background="@drawable/btn_color_selector"
+                android:text="시스템 수익률"
+                android:textColor="#FFFFFF" />
         </LinearLayout>
 
-        <ListView
-            android:id="@+id/list_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+        <WebView
+            android:id="@+id/detail_webview"
             android:layout_below="@+id/buttonview"
-            android:divider="#B2B2B2"
-            android:dividerHeight="2px" />
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
     </RelativeLayout>
 
 </LinearLayout>

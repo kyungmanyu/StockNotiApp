@@ -47,9 +47,15 @@ public class LoginPage extends Activity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.login);
-		if (checkSelfPermission(Manifest.permission.GET_ACCOUNTS) != PackageManager.PERMISSION_GRANTED) {
-			Log.d("jusik", "checkSelfPermission ");
-			requestPermissions(new String[] { Manifest.permission.GET_ACCOUNTS }, PERMISSIONS_REQUEST_GETACCOUNTS);
+		if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+			// only for gingerbread and newer versions
+
+			if (checkSelfPermission(Manifest.permission.GET_ACCOUNTS) != PackageManager.PERMISSION_GRANTED) {
+				Log.d("jusik", "checkSelfPermission ");
+				requestPermissions(new String[] { Manifest.permission.GET_ACCOUNTS }, PERMISSIONS_REQUEST_GETACCOUNTS);
+			} else {
+				isGranted = true;
+			}
 		} else {
 			isGranted = true;
 		}
@@ -159,8 +165,8 @@ public class LoginPage extends Activity {
 						startSystem();
 					}
 
-					Intent intent = new Intent(LoginPage.this, MyInstanceIDListenerService.class);
-					startService(intent);
+//					Intent intent = new Intent(LoginPage.this, MyInstanceIDListenerService.class);
+//					startService(intent);
 
 				} else {
 					Toast.makeText(LoginPage.this, "권한 획득 전  입니다!!", Toast.LENGTH_SHORT).show();
@@ -196,6 +202,8 @@ public class LoginPage extends Activity {
 	}
 
 	private void startSystem() {
+		Intent intent = new Intent(LoginPage.this, MyInstanceIDListenerService.class);
+		startService(intent);
 		Toast.makeText(getApplicationContext(), Util.getDeviceImei(LoginPage.this) + " 로 로그인 합니다", Toast.LENGTH_LONG)
 				.show();
 		Intent i = new Intent(LoginPage.this, MainActivity.class);

@@ -42,9 +42,6 @@ public class MyInstanceIDListenerService extends IntentService {
 		super.onCreate();
 	}
 
-	
-
-	
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		// TODO Auto-generated method stub
@@ -67,7 +64,9 @@ public class MyInstanceIDListenerService extends IntentService {
 			// for details on this file.
 			// [START get_token]
 			InstanceID instanceID = InstanceID.getInstance(this);
-			if (Util.getGcmToken(this) == null || Util.sDeviceId == null) {
+			Log.i(TAG, "GCM Registration Token: " + Util.getGcmToken(this));
+			Log.i(TAG, "GCM Util.getDeviceImei(this): " + Util.getDeviceImei(this));
+			if (Util.getGcmToken(this) == null) {
 				String token = instanceID.getToken(SENDER_ID, GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
 				// [END get_token]
 				Log.i(TAG, "GCM Registration Token: " + token);
@@ -121,7 +120,8 @@ public class MyInstanceIDListenerService extends IntentService {
 
 		try {
 			// url = new URL("http://suah.iptime.org:9000/savegcm");
-			String urltoken = "http://suah.iptime.org:9000/savegcm?" + "id=" + Util.sDeviceId + "&token=" + token;
+			String urltoken = "http://suah.iptime.org:9000/savegcm?" + "id=" + Util.getDeviceImei(this) + "&token="
+					+ token;
 			url = new URL(urltoken);
 			Log.e("kyungman", "kyungman url : " + url.getPath());
 		} catch (MalformedURLException e) {
@@ -142,7 +142,7 @@ public class MyInstanceIDListenerService extends IntentService {
 
 			JSONObject insertToken = new JSONObject();
 			try {
-				insertToken.put("id", Util.sDeviceId );
+				insertToken.put("id", Util.sDeviceId);
 				insertToken.put("token", token);
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block

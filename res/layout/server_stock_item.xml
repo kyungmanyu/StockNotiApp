@@ -2,10 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     android:padding="5dp" >
 
-
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal" >
 
         <!-- Single ListItem -->
 
@@ -151,6 +154,35 @@
                 android:textSize="14dip"
                 android:textStyle="bold" />
         </LinearLayout>
+    </LinearLayout>
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <ProgressBar
+            android:id="@+id/PROGRESS_BAR"
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:progress="10" >
+        </ProgressBar>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" 
+            android:layout_marginTop="2dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                
+                
+                android:text="1일차"
+                android:textSize="8sp"
+                >
+            </TextView>
+        </RelativeLayout>
+    </FrameLayout>
 
 </LinearLayout>

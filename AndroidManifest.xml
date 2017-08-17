@@ -83,6 +83,15 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".ServerprofitTemp"
+            android:configChanges="orientation|screenSize"
+            android:label="시스템 수익률" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+        
+         <activity
             android:name=".Serverprofit"
             android:configChanges="orientation|screenSize"
             android:label="시스템 수익률" >
@@ -90,6 +99,7 @@
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
+        
         <activity
             android:name=".SearchJongmok"
             android:configChanges="orientation|screenSize"

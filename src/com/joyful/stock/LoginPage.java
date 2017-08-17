@@ -1,7 +1,18 @@
 package com.joyful.stock;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.joyful.stock.db.StockDBUpdater;
 import com.joyful.stock.gcm.MyInstanceIDListenerService;
 
 import android.Manifest;
@@ -212,25 +223,86 @@ public class LoginPage extends Activity {
 
 	private void initLoading() {
 		// TODO Auto-generated method stub
-
+		
 		Thread load = new Thread(new Runnable() {
-			int index = 1;
+//			int index = 1;
 
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
-				while (index < 4) {
-					Log.e("thread", "thread index : " + index);
-					mHandler.sendEmptyMessage(index);
-					try {
-						Thread.sleep(1000);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+				HttpURLConnection urlConnection = null;
+				
+				StringBuilder result = new StringBuilder();
+
+				try {
+					URL url = new URL("http://suah.iptime.org:9000/getjongmok");
+					urlConnection = (HttpURLConnection) url.openConnection();
+					InputStream in = new BufferedInputStream(urlConnection.getInputStream());
+
+					BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+
+					String line;
+					while ((line = reader.readLine()) != null) {
+						result.append(line);
 					}
 
-					index++;
+					ArrayList<String> jongmoklist = StockDBUpdater
+							.getJongMokServer(getContentResolver());
+
+					if (jongmoklist != null) {
+						for (int i = 0; i < jongmoklist.size(); i++) {
+
+							StockDBUpdater.removeDBtable(getApplicationContext(), jongmoklist.get(i));
+
+						}
+					}
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				} finally {
+					urlConnection.disconnect();
 				}
+
+				try {
+					JSONArray JArry = new JSONArray(result.toString());
+					for (int i = 0; i < JArry.length(); i++) {
+						JSONObject jo = JArry.getJSONObject(i);
+						Log.e("test", "JsonObject from server : " + jo.getString("jongmok"));
+						String codenum = jongmokList.getStockItem(jo.getString("jongmok"));
+						Log.e("test", "JsonObject jongmokcode from server : "
+								+ jongmokList.getStockItem(jo.getString("jongmok")));
+						if (codenum == null || !StockDBUpdater.checkJongMok(getContentResolver(), codenum)) {
+//							setStockItem(jo.getString("jongmok"));
+							new SearchJongmokAsync(LoginPage.this, jo.getString("jongmok"), null);
+						}
+
+						StockDBUpdater.insertJongMokServer(getContentResolver(), jo.getString("jongmok"),
+								jo.getString("price"), jo.getString("lowprice"), jo.getString("highprice"),
+								jo.getString("sellday"), jo.getString("sellstep"));
+					}
+
+					mHandler.sendEmptyMessage(3);
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+				
+				
+				
+				
+//				while (index < 4) {
+//					Log.e("thread", "thread index : " + index);
+//					mHandler.sendEmptyMessage(index);
+//					try {
+//						Thread.sleep(1000);
+//					} catch (InterruptedException e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					}
+//
+//					index++;
+//				}
 			}
 		});
 		load.start();

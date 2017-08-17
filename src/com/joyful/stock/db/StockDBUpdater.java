@@ -1,6 +1,7 @@
 package com.joyful.stock.db;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -20,16 +21,18 @@ public class StockDBUpdater {
 	public static void insertJongMok(ContentResolver mContentResolver, HashMap<String, String> productList) {
 
 		Set<String> keyset = productList.keySet();
-		for (String key : keyset) {
+		synchronized (productList) {
+			for (String key : keyset) {
 
-			ContentValues values = new ContentValues();
+				ContentValues values = new ContentValues();
 
-			values.put(StockDBConstant.NAME, key);
-			values.put(StockDBConstant.CODE, productList.get(key));
+				values.put(StockDBConstant.NAME, key);
+				values.put(StockDBConstant.CODE, productList.get(key));
 
-			mContentResolver.insert(StockDBConstant.JONGMOK_URI, values);
+				mContentResolver.insert(StockDBConstant.JONGMOK_URI, values);
 
-			values.clear();
+				values.clear();
+			}
 		}
 
 	}
@@ -43,6 +46,26 @@ public class StockDBUpdater {
 
 		mContentResolver.insert(StockDBConstant.JONGMOK_URI, values);
 
+	}
+
+	public static boolean checkJongMok(ContentResolver mContentResolver, String code) {
+
+		String name = null;
+		String selection = StockDBConstant.CODE + " = " + "\"" + code + "\"";
+
+		String[] queryField;
+		Cursor cursor;
+
+		queryField = new String[] { StockDBConstant.NAME };
+		cursor = mContentResolver.query(StockDBConstant.JONGMOK_URI, queryField, selection, null, null);
+		if (cursor != null) {
+			if (cursor.moveToFirst()) {
+				name = cursor.getString(cursor.getColumnIndex(StockDBConstant.NAME));
+				return true;
+			}
+			cursor.close();
+		}
+		return false;
 	}
 
 	public static void insertJongMokServer(ContentResolver mContentResolver, String name, String price, String lowprice,

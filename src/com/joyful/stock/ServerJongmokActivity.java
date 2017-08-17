@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -14,15 +15,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.joyful.stock.db.StockDBUpdater;
-import com.joyful.stock.gcm.MyInstanceIDListenerService;
 
-import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -34,8 +34,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -46,6 +46,7 @@ public class ServerJongmokActivity extends Activity implements GetCurrentPriceAs
 	private BroadcastReceiver mRefreshReceiver;
 	private static final int PERMISSIONS_REQUEST_READ_PHONE_STATE = 10;
 	private Handler mHandler;
+	private AlertDialog mWaitingDialog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -54,15 +55,15 @@ public class ServerJongmokActivity extends Activity implements GetCurrentPriceAs
 
 		this.setTitle("시스템 추천주");
 
-		Thread setList = new Thread(new Runnable() {
-
-			@Override
-			public void run() {
-				// TODO Auto-generated method stub
-				jongmokList.setList(ServerJongmokActivity.this);
-			}
-		});
-		setList.start();
+		// Thread setList = new Thread(new Runnable() {
+		//
+		// @Override
+		// public void run() {
+		// // TODO Auto-generated method stub
+		// jongmokList.setList(ServerJongmokActivity.this);
+		// }
+		// });
+		// setList.start();
 
 		Button btnlocal = (Button) findViewById(R.id.local);
 		btnlocal.setOnClickListener(new OnClickListener() {
@@ -108,7 +109,6 @@ public class ServerJongmokActivity extends Activity implements GetCurrentPriceAs
 
 	}
 
-
 	class RefreshReceiver extends BroadcastReceiver {
 
 		@Override
@@ -144,13 +144,29 @@ public class ServerJongmokActivity extends Activity implements GetCurrentPriceAs
 			}
 		});
 
-		getData data = new getData();
-		data.execute();
+//		getData data = new getData();
+//		data.execute();
 
-		// updateStockItem();
+		 updateStockItem();
 
 		super.onResume();
 
+	}
+
+	private void showWaitingDialog(String title, String message) {
+		Log.i("", "[Test] showWaitingDialog!! ");
+		try {
+			ProgressDialog dlgProgress = new ProgressDialog(this);
+			// dlgProgress.setTitle(title);
+			dlgProgress.setMessage(message);
+			dlgProgress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+			dlgProgress.setCancelable(false);
+			mWaitingDialog = dlgProgress;
+			mWaitingDialog.show();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Log.d("", "[RemoveAccountTask] activity terminated");
+		}
 	}
 
 	class getData extends AsyncTask<String, String, String> {
@@ -158,7 +174,17 @@ public class ServerJongmokActivity extends Activity implements GetCurrentPriceAs
 		HttpURLConnection urlConnection;
 
 		@Override
+		protected void onPreExecute() {
+
+			// TODO Auto-generated method stub
+			showWaitingDialog("", "서버 데이타 수신중...");
+			super.onPreExecute();
+		}
+
+		@Override
 		protected String doInBackground(String... args) {
+
+			// jongmokList.setList(ServerJongmokActivity.this);
 
 			StringBuilder result = new StringBuilder();
 
@@ -191,14 +217,6 @@ public class ServerJongmokActivity extends Activity implements GetCurrentPriceAs
 				urlConnection.disconnect();
 			}
 
-			return result.toString();
-		}
-
-		@Override
-		protected void onPostExecute(String result) {
-
-			// Do something with the JSON string
-			Log.e("test", "test from server : " + result);
 			try {
 				JSONArray JArry = new JSONArray(result.toString());
 				for (int i = 0; i < JArry.length(); i++) {
@@ -207,12 +225,14 @@ public class ServerJongmokActivity extends Activity implements GetCurrentPriceAs
 					String codenum = jongmokList.getStockItem(jo.getString("jongmok"));
 					Log.e("test", "JsonObject jongmokcode from server : "
 							+ jongmokList.getStockItem(jo.getString("jongmok")));
-					if (codenum == null) {
-						new SearchJongmokAsync(ServerJongmokActivity.this, jo.getString("jongmok"), null);
+					if (codenum == null || !StockDBUpdater.checkJongMok(getContentResolver(), codenum)) {
+						setStockItem(jo.getString("jongmok"));
+
 					}
 
 					StockDBUpdater.insertJongMokServer(getContentResolver(), jo.getString("jongmok"),
-							jo.getString("price"), jo.getString("lowprice"), jo.getString("highprice"), jo.getString("sellday"),jo.getString("sellstep"));
+							jo.getString("price"), jo.getString("lowprice"), jo.getString("highprice"),
+							jo.getString("sellday"), jo.getString("sellstep"));
 				}
 
 				mHandler.sendEmptyMessage(1);
@@ -220,6 +240,75 @@ public class ServerJongmokActivity extends Activity implements GetCurrentPriceAs
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+
+			return result.toString();
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+
+			// Do something with the JSON string
+			Log.e("test", "test from server : " + result);
+
+			if (mWaitingDialog.isShowing()) {
+				mWaitingDialog.dismiss();
+			}
+			mHandler.sendEmptyMessage(1);
+
+		}
+
+	}
+
+	protected void setStockItem(String item) {
+
+		String jongmokHeader = "https://m.search.daum.net/search?w=tot&q=";
+		String jongmokRear = "&nil_profile=rcmkwd&rtmaxcoll=1CI&pin=stock&DA=11M";
+		String compare1 = "<span class=\"f_sub_s\">";
+		String compare2 = "<span class=\"txt_sub\">";
+		URL url = null;
+		String jongmokName = item;
+		HttpURLConnection conn = null;
+		BufferedReader br = null;
+
+		String stockCode;
+
+		try {
+			url = new URL(jongmokHeader + URLEncoder.encode(jongmokName, "UTF-8") + jongmokRear);
+
+			conn = (HttpURLConnection) url.openConnection();
+
+			conn.setConnectTimeout(1000);
+			conn.setReadTimeout(1000);
+			conn.setRequestMethod("GET");
+			conn.setAllowUserInteraction(false);
+			conn.setRequestProperty("content-type", "text/plain; charset=UTF-8");
+			conn.setUseCaches(false);
+
+			InputStream in = new BufferedInputStream(conn.getInputStream());
+			Log.e("test", "dom in.toString : " + conn.getInputStream());
+
+			if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
+				// Log.d("", "[Test] conn.. :: HTTP_OK..");
+				br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+				for (;;) {
+					String line = br.readLine();
+					Log.d("", "line : " + line);
+					if (line.contains("f_sub_s")) {
+						String[] comparemain = line.split(compare1);
+
+						String[] comparesub = comparemain[1].split(compare2);
+						stockCode = comparesub[0];
+						break;
+					}
+				}
+				jongmokList.setStockItem(this, jongmokName, stockCode);
+				Log.e("stock", "searchJongmok name : " + jongmokName);
+				Log.e("stock", "searchJongmok stockCode : " + stockCode);
+
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 	}
@@ -245,7 +334,7 @@ public class ServerJongmokActivity extends Activity implements GetCurrentPriceAs
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
+		getMenuInflater().inflate(R.menu.servermain, menu);
 
 		return true;
 	}
@@ -258,11 +347,6 @@ public class ServerJongmokActivity extends Activity implements GetCurrentPriceAs
 
 			Intent editIntent = new Intent("com.joyful.stock.action.ALARM_SETTINGS_ACTIVITY");
 			startActivity(editIntent);
-
-			return true;
-		} else if (id == R.id.search) {
-			Intent search = new Intent(this, SearchJongmok.class);
-			startActivity(search);
 
 			return true;
 		} else if (id == R.id.help) {

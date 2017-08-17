@@ -2,10 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     android:padding="5dp" >
 
-
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal" >
 
         <!-- Single ListItem -->
 
@@ -25,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:padding="2dip"
                 android:text="종목"
-                android:textSize="16dip"
+                android:textSize="12dip"
                 android:textStyle="bold" />
 
             <TextView
@@ -34,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="marquee"
                 android:padding="2dip"
-                android:textSize="14dip" />
+                android:textSize="10dip" />
         </LinearLayout>
         <!-- 현재가 Name -->
 
@@ -50,18 +53,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="2dip"
-                android:text="현재가"
-                android:textSize="16dip"
+                android:text="매수가"
+                android:textSize="12dip"
                 android:textStyle="bold" />
 
             <!-- 현재가 vlaue -->
 
             <TextView
-                android:id="@+id/current_value"
+                android:id="@+id/buyprice_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="2dip"
-                android:textSize="14dip"
+                android:textSize="10dip"
                 android:textStyle="bold" />
         </LinearLayout>
 
@@ -79,18 +82,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="2dip"
-                android:text="전일 대비"
-                android:textSize="16dip"
+                android:text="매도가"
+                android:textSize="12dip"
                 android:textStyle="bold" />
 
             <!-- 전일대비 vlaue -->
 
             <TextView
-                android:id="@+id/comparebefore_value"
+                android:id="@+id/sellprice_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="2dip"
-                android:textSize="14dip"
+                android:textSize="10dip"
                 android:textStyle="bold" />
         </LinearLayout>
 
@@ -108,18 +111,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="2dip"
-                android:text="매수가 "
-                android:textSize="16dip"
+                android:text="수익률 "
+                android:textSize="12dip"
                 android:textStyle="bold" />
 
             <!-- 매수가 vlaue -->
 
             <TextView
-                android:id="@+id/buyprice_value"
+                android:id="@+id/profit_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="2dip"
-                android:textSize="14dip"
+                android:textSize="10dip"
                 android:textStyle="bold" />
         </LinearLayout>
 
@@ -137,20 +140,80 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="2dip"
-                android:text="수익률"
-                android:textSize="16dip"
+                android:text="매수일"
+                android:textSize="12dip"
                 android:textStyle="bold" />
 
             <!-- 수익률 vlaue -->
 
             <TextView
-                android:id="@+id/profit_value"
+                android:id="@+id/buyday_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="2dip"
-                android:textSize="14dip"
+                android:textSize="10dip"
                 android:textStyle="bold" />
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:showDividers="beginning" >
+
+            <!-- 수익률 Name -->
+
+            <TextView
+                android:id="@+id/sellday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="2dip"
+                android:text="매도일"
+                android:textSize="12dip"
+                android:textStyle="bold" />
+
+            <!-- 수익률 vlaue -->
+
+            <TextView
+                android:id="@+id/sellday_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="2dip"
+                android:textSize="10dip"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:showDividers="beginning" >
+
+            <!-- 수익률 Name -->
+
+            <TextView
+                android:id="@+id/preiod"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="2dip"
+                android:text="보유일수"
+                android:textSize="12dip"
+                android:textStyle="bold" />
+
+            <!-- 수익률 vlaue -->
+
+            <TextView
+                android:id="@+id/preiod_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="2dip"
+                android:textSize="10dip"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+      
+    </LinearLayout>
 
 </LinearLayout>

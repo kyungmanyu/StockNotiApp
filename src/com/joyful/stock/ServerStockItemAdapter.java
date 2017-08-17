@@ -63,7 +63,7 @@ public class ServerStockItemAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		View itemLayout = mLayoutInflater.inflate(R.layout.stock_item, null);
+		View itemLayout = mLayoutInflater.inflate(R.layout.server_stock_item, null);
 		Log.e("jusik", "jusik mCodeArray :" + mCodeArray.size());
 		mStockName = (TextView) itemLayout.findViewById(R.id.Stock_name);
 		mCurrentPrice = (TextView) itemLayout.findViewById(R.id.current_value);
@@ -117,7 +117,7 @@ public class ServerStockItemAdapter extends BaseAdapter {
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				Log.e("test", "exception !");
-				Toast.makeText(mContext, "주식 시장이 휴장 입니다...", Toast.LENGTH_LONG).show();
+				Toast.makeText(mContext, "서버 점검중 입니다..", Toast.LENGTH_LONG).show();
 				e.printStackTrace();
 			}
 		}

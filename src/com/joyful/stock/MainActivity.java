@@ -78,7 +78,7 @@ public class MainActivity extends Activity implements GetCurrentPriceAsyncTask.C
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent i = new Intent(getApplicationContext(), Serverprofit.class);
+				Intent i = new Intent(getApplicationContext(), ServerprofitTemp.class);
 				i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(i);
 				overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);

@@ -1,0 +1,18 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.joyful.stock.MainActivity" >
+
+    <item
+        android:id="@+id/help"
+        android:icon="@android:drawable/ic_menu_help"
+        android:showAsAction="always"
+        android:title="help"/>
+    <item
+        android:id="@+id/action_settings"
+        android:title="알림 설정"/>
+    <item
+        android:id="@+id/action_profit"
+        android:title="수익률 현황"/>
+
+</menu>

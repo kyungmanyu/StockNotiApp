@@ -200,7 +200,7 @@ public class MyInstanceIDListenerService extends IntentService {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			Log.e("kyungman", "IOException: " + e.getMessage());
-			e.printStackTrace();
+			e.printStackTrace();		
 		}
 
 		Log.e("kyungman", "kyungman url : " + conn.getURL());

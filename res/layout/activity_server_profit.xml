@@ -14,7 +14,7 @@
         <LinearLayout
             android:id="@+id/buttonview"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"            
+            android:layout_height="wrap_content"
             android:gravity="top"
             android:orientation="horizontal" >
 
@@ -46,13 +46,44 @@
                 android:textColor="#FFFFFF" />
         </LinearLayout>
 
-        <WebView
-            android:id="@+id/detail_webview"
-            android:layout_below="@+id/buttonview"
+        <LinearLayout
+            android:id="@+id/text"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-        
-         
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/buttonview"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="56종목"
+                android:textSize="20sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="374.4%"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+        <ListView
+            android:id="@+id/list_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/text"
+            android:divider="#B2B2B2"
+            android:dividerHeight="2px" />
+
+        <Button
+            android:id="@+id/totaljongmok"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/list_view"
+            android:background="#000000"
+            android:text="모든 종목 수익률 보기"
+            android:textColor="#ffffff" />
     </RelativeLayout>
 
 </LinearLayout>

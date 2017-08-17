@@ -22,7 +22,7 @@ public class jongmokList {
 	// ArrayList for Listview
 	static HashMap<String, String> productList = new HashMap<>();
 	static HashMap<String, String> productTitlesMap = new HashMap<>();
-	static ArrayList<String> products = new ArrayList<>();;
+	static ArrayList<String> products = new ArrayList<>();
 	static ArrayList<String> productItems = new ArrayList<>();;
 
 	public static ArrayList<String> getList(Context context) {
@@ -68,9 +68,11 @@ public class jongmokList {
 
 	public static void setStockItem(Context context, String stockName, String stockCode) {
 
-		productList.put(stockName, stockCode);
-		products.add(stockName);
-		updateList(context, stockName, stockCode);
+		synchronized (productList) {
+			productList.put(stockName, stockCode);
+			products.add(stockName);
+			updateList(context, stockName, stockCode);
+		}
 	}
 
 	public static String getStockName(String stockCode) {

@@ -60,8 +60,8 @@ public class GetCurrentPriceAsyncTask extends AsyncTask<Void, Void, Map<String, 
 		Set<String> temp = Util.getStockCodes(context);
 
 		if (temp != null) {
-			Log.e("stock", "setItemList temp size : " + temp.size());
-			Log.e("stock", "setItemList temp tostring : " + temp.toString());
+			Log.e("stock", "GetCurrentPriceAsyncTask setItemList temp size : " + temp.size());
+			Log.e("stock", "GetCurrentPriceAsyncTask setItemList temp tostring : " + temp.toString());
 			Iterator<String> ir = temp.iterator();
 			while (ir.hasNext()) {
 				mItemNumList.add(ir.next());
@@ -72,7 +72,7 @@ public class GetCurrentPriceAsyncTask extends AsyncTask<Void, Void, Map<String, 
 	}
 
 	public GetCurrentPriceAsyncTask(Context context, final ArrayList<String> itemNumList, Callback callback) {
-		Log.w("", "[Test] GetCurrentPriceAsyncTask() - Context");
+		Log.e("stock", "GetCurrentPriceAsyncTask  GetCurrentPriceAsyncTask() - Context");
 		mContext = context;
 		if (itemNumList == null) {
 
@@ -85,7 +85,7 @@ public class GetCurrentPriceAsyncTask extends AsyncTask<Void, Void, Map<String, 
 	}
 
 	public GetCurrentPriceAsyncTask(Activity activity, final ArrayList<String> itemNumList, Callback callback) {
-		Log.w("", "[Test] GetCurrentPriceAsyncTask() - Activity!!");
+		Log.e("stock", "GetCurrentPriceAsyncTask [Test] GetCurrentPriceAsyncTask() - Activity!!");
 		mParentActivity = activity;
 		mContext = activity.getApplicationContext();
 		if (itemNumList == null) {
@@ -138,7 +138,7 @@ public class GetCurrentPriceAsyncTask extends AsyncTask<Void, Void, Map<String, 
 	}
 
 	private void showWaitingDialog(String title, String message) {
-		Log.i("", "[Test] showWaitingDialog!! ");
+		Log.e("stock", "GetCurrentPriceAsyncTask [Test] showWaitingDialog!! ");
 		try {
 			ProgressDialog dlgProgress = new ProgressDialog(mParentActivity);
 			// dlgProgress.setTitle(title);
@@ -149,12 +149,12 @@ public class GetCurrentPriceAsyncTask extends AsyncTask<Void, Void, Map<String, 
 			mWaitingDialog.show();
 		} catch (Exception e) {
 			e.printStackTrace();
-			Log.d("", "[RemoveAccountTask] activity terminated");
+			Log.e("stock", "GetCurrentPriceAsyncTask [RemoveAccountTask] activity terminated");
 		}
 	}
 
 	private void dismissWaitingDialog() {
-		Log.i("", "[Test] dismissWaitingDialog!! ");
+		Log.e("stock", "GetCurrentPriceAsyncTask [Test] dismissWaitingDialog!! ");
 		try {
 			if (mParentActivity.isFinishing() == false && mWaitingDialog != null) {
 				mWaitingDialog.dismiss();
@@ -184,11 +184,12 @@ public class GetCurrentPriceAsyncTask extends AsyncTask<Void, Void, Map<String, 
 
 		ArrayList<String> retVal = new ArrayList<>();
 		try {
+			Log.e("stock", "GetCurrentPriceAsyncTask [Test] start "+addr);
 			url = new URL(addr);
 			conn = (HttpURLConnection) url.openConnection();
 
 			if (conn != null) {
-				Log.d("", "[Test] conn..");
+				Log.e("stock", "GetCurrentPriceAsyncTask[Test] conn..");
 				conn.setConnectTimeout(1000);
 				conn.setReadTimeout(1000);
 				conn.setRequestMethod("GET");
@@ -196,7 +197,7 @@ public class GetCurrentPriceAsyncTask extends AsyncTask<Void, Void, Map<String, 
 				conn.setRequestProperty("content-type", "text/plain; charset=euc-kr");
 				conn.setUseCaches(false);
 				if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
-					Log.d("", "[Test] conn.. :: HTTP_OK..");
+					Log.e("stock", "GetCurrentPriceAsyncTask [Test] conn.. :: HTTP_OK..");
 					br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "euc-kr"));
 
 					int nextCheck = 0; // 0 - today , 1 - 현재가, 3 - 상승/하락, 4 -
@@ -253,18 +254,18 @@ public class GetCurrentPriceAsyncTask extends AsyncTask<Void, Void, Map<String, 
 					return retVal;
 
 				} else {
-					Log.e("", "[Test] conn.. :: HTTP_ERROR..");
+					Log.e("stock", "GetCurrentPriceAsyncTask [Test] conn.. :: HTTP_ERROR..");
 				}
 
 			} else {
-				Log.w("", "[Test] conn is null..");
+				Log.e("stock", "GetCurrentPriceAsyncTask [Test] conn is null..");
 			}
 		} catch (Exception ex) {
-			Log.e("", "[Test] Exception");
+			Log.e("stock", "GetCurrentPriceAsyncTask[Test] Exception"+ex.toString());
 			ex.printStackTrace();
 		} finally {
 			if (conn != null) {
-				Log.e("", "[Test] disconnect..");
+				Log.e("stock", "GetCurrentPriceAsyncTask [Test] disconnect..");
 				conn.disconnect();
 			}
 		}

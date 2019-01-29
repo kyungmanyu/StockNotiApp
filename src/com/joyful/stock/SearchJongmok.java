@@ -159,8 +159,9 @@ public class SearchJongmok extends Activity implements SearchCallback {
 	public void updateJongmok(String name) {
 		// TODO Auto-generated method stub
 		Log.e("search callback", "searchcallback update : " + name);
-		runOnUiThread(new updateRunnable(name));
-
+//		runOnUiThread(new updateRunnable(name));
+		adapterinit();
+		SearchJongmok.this.adapter.getFilter().filter(name);
 	}
 
 	class updateRunnable implements Runnable {

@@ -120,7 +120,7 @@ public class MyInstanceIDListenerService extends IntentService {
 
 		try {
 			// url = new URL("http://suah.iptime.org:9000/savegcm");
-			String urltoken = "http://suah.iptime.org:9000/savegcm?" + "id=" + Util.getDeviceImei(this) + "&token="
+			String urltoken = "http://suah.iptime.org:9001/savegcm?" + "id=" + Util.getDeviceImei(this) + "&token="
 					+ token;
 			url = new URL(urltoken);
 			Log.e("kyungman", "kyungman url : " + url.getPath());
@@ -163,8 +163,7 @@ public class MyInstanceIDListenerService extends IntentService {
 			e.printStackTrace();
 		}
 
-		Log.e("kyungman", "kyungman url : " + conn.getURL());
-		Log.e("kyungman", "kyungman url toString : " + conn.toString());
+		
 
 	}
 
@@ -176,7 +175,7 @@ public class MyInstanceIDListenerService extends IntentService {
 
 		try {
 			// url = new URL("http://suah.iptime.org:9000/savegcm");
-			url = new URL("http://192.168.129.133:9000/sendgcm");
+			url = new URL("http://suah.iptime.org:9001/sendgcm");
 			Log.e("kyungman", "kyungman url : " + url.getPath());
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block

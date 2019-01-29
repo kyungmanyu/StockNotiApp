@@ -189,7 +189,7 @@ public class ServerJongmokActivity extends Activity implements GetCurrentPriceAs
 			StringBuilder result = new StringBuilder();
 
 			try {
-				URL url = new URL("http://suah.iptime.org:9000/getjongmok");
+				URL url = new URL("http://suah.iptime.org:9001/getjongmok");
 				urlConnection = (HttpURLConnection) url.openConnection();
 				InputStream in = new BufferedInputStream(urlConnection.getInputStream());
 

@@ -15,6 +15,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -206,6 +207,7 @@ public class MainActivity extends Activity implements GetCurrentPriceAsyncTask.C
     public void onCompleted(Context context, Map<String, ArrayList<String>> result) {
         // TODO Auto-generated method stub
 
+    	Log.e("stock", "MainActivity async complete result : "+result);
         try {
             mStockItemAdapter = new StockItemAdapter(this, result);
             mStockList.setAdapter(mStockItemAdapter);

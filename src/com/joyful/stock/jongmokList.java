@@ -26,12 +26,20 @@ public class jongmokList {
 	static ArrayList<String> productItems = new ArrayList<>();;
 
 	public static ArrayList<String> getList(Context context) {
-		if (products.size() < 1 && !Util.getDBUpdateFlag(context)) {
-			setList(context);
-		}
 
-		if (products.size() < 1 && Util.getDBUpdateFlag(context)) {
+		if (Util.getDeviceImei(context) != null) {
+
 			initialDB(context.getContentResolver());
+		} else {
+			if (products.size() < 1 && !Util.getDBUpdateFlag(context)) {
+				Log.e("jongmoklist", "setList");
+				setList(context);
+			}
+
+			if (products.size() < 1 && Util.getDBUpdateFlag(context)) {
+				Log.e("jongmoklist", "initial DB");
+				initialDB(context.getContentResolver());
+			}
 		}
 		return products;
 	}

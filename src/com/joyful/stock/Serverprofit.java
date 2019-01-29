@@ -21,7 +21,7 @@ public class Serverprofit extends Activity {
 		super.onCreate(savedInstanceState);
 
 		// String addr = "http://nofateman.wix.com/joyful-idea/";
-		String addr = "http://suah.iptime.org:9000/showhistory";
+		String addr = "http://suah.iptime.org:9001/showhistory";
 
 		getWindow().requestFeature(getWindow().FEATURE_PROGRESS);
 		setContentView(R.layout.activity_profit);

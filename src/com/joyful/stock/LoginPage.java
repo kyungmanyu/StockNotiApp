@@ -119,7 +119,7 @@ public class LoginPage extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-
+				Log.e("stock", "LoginPage isGranted"+isGranted);
 				if (isGranted) {
 					// mEditView.setVisibility(View.VISIBLE);
 					gUsernameList.clear();
@@ -235,7 +235,7 @@ public class LoginPage extends Activity {
 				StringBuilder result = new StringBuilder();
 
 				try {
-					URL url = new URL("http://suah.iptime.org:9000/getjongmok");
+					URL url = new URL("http://suah.iptime.org:9001/getjongmok");
 					urlConnection = (HttpURLConnection) url.openConnection();
 					InputStream in = new BufferedInputStream(urlConnection.getInputStream());
 

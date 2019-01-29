@@ -43,8 +43,9 @@ public class StockDBUpdater {
 
 		values.put(StockDBConstant.NAME, name);
 		values.put(StockDBConstant.CODE, code);
-
-		mContentResolver.insert(StockDBConstant.JONGMOK_URI, values);
+		if (!checkJongMok(mContentResolver, code)) {
+			mContentResolver.insert(StockDBConstant.JONGMOK_URI, values);
+		}
 
 	}
 

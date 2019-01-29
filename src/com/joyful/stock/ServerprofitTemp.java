@@ -29,7 +29,7 @@ public class ServerprofitTemp extends Activity {
 		super.onCreate(savedInstanceState);
 
 		// String addr = "http://nofateman.wix.com/joyful-idea/";
-		String addr = "http://suah.iptime.org:9000/showhistory";
+		String addr = "http://suah.iptime.org:9001/showhistory";
 
 		setContentView(R.layout.activity_server_profit);
 
@@ -87,7 +87,7 @@ public class ServerprofitTemp extends Activity {
 			StringBuilder result = new StringBuilder();
 
 			try {
-				URL url = new URL("http://suah.iptime.org:9000/getprofit");
+				URL url = new URL("http://suah.iptime.org:9001/getprofit");
 				urlConnection = (HttpURLConnection) url.openConnection();
 				InputStream in = new BufferedInputStream(urlConnection.getInputStream());
 

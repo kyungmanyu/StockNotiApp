@@ -181,21 +181,36 @@ public class GetCurrentPriceAsyncTask extends AsyncTask<Void, Void, Map<String, 
 		HttpURLConnection conn = null;
 		URL url = null;
 		BufferedReader br = null;
-
+		
 		ArrayList<String> retVal = new ArrayList<>();
 		try {
 			Log.e("stock", "GetCurrentPriceAsyncTask [Test] start "+addr);
 			url = new URL(addr);
 			conn = (HttpURLConnection) url.openConnection();
-
+			
 			if (conn != null) {
 				Log.e("stock", "GetCurrentPriceAsyncTask[Test] conn..");
-				conn.setConnectTimeout(1000);
-				conn.setReadTimeout(1000);
+				conn.setConnectTimeout(100000);
+				conn.setReadTimeout(100000);
 				conn.setRequestMethod("GET");
 				conn.setAllowUserInteraction(false);
 				conn.setRequestProperty("content-type", "text/plain; charset=euc-kr");
 				conn.setUseCaches(false);
+				int stat = conn.getResponseCode();
+				if (stat >= 300 && stat <= 307 && stat != 306 && stat != HttpURLConnection.HTTP_NOT_MODIFIED) {
+					 String loc = conn.getHeaderField("Location");			           
+			            if (loc != null) 
+			            {
+			            	url = new URL(url, loc);
+			            	conn = (HttpURLConnection) url.openConnection();
+			            	conn.setConnectTimeout(100000);
+							conn.setReadTimeout(100000);
+							conn.setRequestMethod("GET");
+							conn.setAllowUserInteraction(false);
+							conn.setRequestProperty("content-type", "text/plain; charset=euc-kr");
+							conn.setUseCaches(false);
+			            }
+				}
 				if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
 					Log.e("stock", "GetCurrentPriceAsyncTask [Test] conn.. :: HTTP_OK..");
 					br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "euc-kr"));
